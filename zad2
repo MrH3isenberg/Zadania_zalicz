@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+char *wybierz_od_konca(char *tekst, int k)
+{
+    char *wynik = NULL;
+    char *tmp = NULL;
+    int i = 0;
+    int iloscZnakow = 0;
+    int coKtory = 0;
+    for (i = strlen(tekst) - 1; i > -1; i--)
+    {
+        coKtory++;
+        if (coKtory == k)
+        {
+            coKtory = 0;
+            if (tmp == NULL)
+            {
+                tmp = malloc(sizeof(char));
+            }
+            else
+            {
+                tmp = realloc(tmp, sizeof(char) * iloscZnakow);
+            }
+            tmp[iloscZnakow] = tekst[i];
+            iloscZnakow++;
+        }
+    }
+    // Mamy stringa odwroconego, teraz zeby go znow odwrocic, to musimy to... Odwrocic :D
+    iloscZnakow = 0;
+    for (i = strlen(tmp) - 1; i > -1; i--)
+    {
+        if (wynik == NULL)
+        {
+            wynik = malloc(sizeof(char));
+        }
+        else
+        {
+            wynik = realloc(wynik, sizeof(char) * iloscZnakow);
+        }
+        wynik[iloscZnakow] = tmp[i];
+        iloscZnakow++;
+    }
+    return wynik;
+}
+ 
+void main()
+{
+    char lancuch[100];
+    char *utworzonyLancuch = NULL;
+    int numer;
+ 
+    printf("Dawaj jakiego stringa\n>");
+    fflush(stdin);
+    scanf("%99[^\n]s", lancuch);
+   
+    printf("Dawaj jakis numer\n>");
+    fflush(stdin);
+    scanf("%d", &numer);
+   
+    printf("Utworzono lancuch: %s\n", lancuch);
+   
+    utworzonyLancuch = wybierz_od_konca(lancuch, numer);
+    printf("Nowy lancuch: %s", utworzonyLancuch);
+}
