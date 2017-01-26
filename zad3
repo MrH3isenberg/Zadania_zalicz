@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+ 
+typedef struct
+{
+    char nazwisko[30];
+    char imie[20];
+    int rok_u;
+    char plec;
+    double pobory_u;
+} pracownik;
+ 
+double odprawa(void)
+{
+    FILE *pracownicy;
+    FILE *emeryci;
+    FILE *temp;
+   
+    pracownik prac;
+    double odprawa = 0;
+   
+    int rok_dzis = 2017;
+   
+    pracownicy = fopen("pracownicy.txt", "r");
+    emeryci = fopen("emeryci.txt", "w");
+    temp = fopen("temp.txt", "w");
+   
+    while(fread(&prac, sizeof(pracownik), 1, pracownicy) == 1)
+    {
+        if ((prac.plec == 'm' && rok_dzis - prac.rok_u >= 65) || (prac.plec == 'k' && rok_dzis - prac.rok_u >= 60))
+        {
+            fwrite(&prac, sizeof(pracownik), 1, emeryci)
+            odprawa += 6 * prac.pobory_u;
+        }
+        else
+        {
+            fwrite(&prac, sizeof(pracownik), 1, temp);
+        }
+    }
+   
+    fclose(pracownicy);
+    fclose(emeryci);
+    fclose(temp);
+   
+    remove("pracownicy.txt");
+    rename("temp.txt", "pracownicy.txt");
+   
+    return odprawa;
+}
