@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+void main()
+{
+    int h;
+    char Znak;
+    int i, j, k;
+    // 80 - szerokosc wiersza polecen
+    // 25 - wysokosc wiersza polecen
+   
+    printf("Podaj wysokosc: ");
+    fflush(stdin);
+    scanf("%d", &h);
+   
+    printf("Podaj znak: ");
+    fflush(stdin);
+    scanf("%c", &Znak);
+   
+    if (h > 25)
+    {
+        printf("Wysokosc musi byc mniejsza niz 25!");
+    }
+    else
+    {
+        for (k = 0; k < 13 - h / 2; k++)
+        {
+            printf("\n");
+        }
+        for (i = 0; i < h + 1; i++)
+        {
+            for (k = 0; k < 40 - h / 2; k++)
+            {
+                printf(" ");
+            }
+            for (j = 0; j < h + 1; j++)
+            {
+                if (j > h / 2 - i && j < i + h / 2 && i < j + h / 2 && j < h + h / 2 - i)
+                {
+                    printf("%c", Znak);
+                }
+                else
+                {
+                    printf(" ");
+                }
+            }
+            printf("\n");
+        }
+    }
+    getch();
+}
